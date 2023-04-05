@@ -6,10 +6,10 @@ import org.springframework.kafka.annotation.EnableKafka;
 
 @EnableKafka
 @SpringBootApplication
-public class PautaApplication {
+public class MeetingAgendaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PautaApplication.class, args);
+		SpringApplication.run(MeetingAgendaApplication.class, args);
 	}
 
 }
