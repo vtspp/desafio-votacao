@@ -21,7 +21,6 @@ public final class MeetingAgendaService {
         return command
                 .map(this.generateEvent())
                 .doOnNext(producer::send)
-                .doOnError(Mono::error)
                 .map(event -> new MeetingAgendaCreateResponse(event.getId(), event.getName()));
     }
 

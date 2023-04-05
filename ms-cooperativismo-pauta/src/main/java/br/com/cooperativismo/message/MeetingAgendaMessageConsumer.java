@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 public final class MeetingAgendaMessageConsumer {
 
     private final MeetingAgendaRepository repository;
-    @KafkaListener(id = "${spring.kafka.consumer.client-id}", topics = "ms.cooperativismo.pauta-topic")
+    @KafkaListener(id = "${spring.kafka.consumer.client-id}", topics = "${spring.kafka.template.default-topic}")
     public void handler(ConsumerRecord<String, MeetingAgendaCreateEvent> messageRecord, Acknowledgment acknowledgment) {
         final MeetingAgendaCreateEvent event = messageRecord.value();
         Mono.just(event)

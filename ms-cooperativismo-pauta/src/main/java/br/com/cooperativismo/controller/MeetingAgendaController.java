@@ -23,6 +23,6 @@ public final class MeetingAgendaController {
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(WebExchangeBindException.class,
                         e -> Mono.just(ResponseEntity.status(e.getStatusCode())
-                                        .body(new MeetingAgendaCreateResponse(null,e.getFieldError().getDefaultMessage()))));
+                                        .body(new MeetingAgendaCreateResponse(e.getFieldError().getDefaultMessage()))));
     }
 }
