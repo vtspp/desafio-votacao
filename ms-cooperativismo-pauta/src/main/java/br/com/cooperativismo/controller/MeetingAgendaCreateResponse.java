@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class MeetingAgendaCreateResponse {
+public class MeetingAgendaCreateResponse implements Response {
     private UUID id;
     private String name;
 }
