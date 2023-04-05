@@ -5,6 +5,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/db
+      auto-index-creation: true
 
   kafka:
     bootstrap-servers: localhost:9092
