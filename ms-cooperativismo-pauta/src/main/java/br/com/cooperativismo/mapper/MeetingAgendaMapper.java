@@ -9,8 +9,8 @@ public class MeetingAgendaMapper {
 
     public MeetingAgenda mapperToEntity(MeetingAgendaCreateEvent event) {
             MeetingAgenda meetingAgenda = new MeetingAgenda();
-            meetingAgenda.setId(event.getId());
-            meetingAgenda.setName(event.getName());
+            meetingAgenda.setId(event.id());
+            meetingAgenda.setName(event.name());
             return meetingAgenda;
     }
 }

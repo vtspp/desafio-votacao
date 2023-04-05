@@ -29,7 +29,7 @@ public final class MeetingAgendaMessageConsumer {
                             acknowledgment.acknowledge();
                         })
                         .onErrorResume(throwable -> {
-                            log.error("Meeting Agenda Message Consumer status=ERROR, saved=false, id={}, errorMessage={}, method=handler", event.getId(), throwable.getMessage());
+                            log.error("Meeting Agenda Message Consumer status=ERROR, saved=false, id={}, errorMessage={}, method=handler", event.id(), throwable.getMessage());
                             // metric
                             return Mono.empty();
                         }).subscribe());

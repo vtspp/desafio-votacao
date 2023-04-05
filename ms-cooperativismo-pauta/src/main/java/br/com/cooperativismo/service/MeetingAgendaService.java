@@ -21,10 +21,13 @@ public final class MeetingAgendaService {
         return command
                 .map(this.generateEvent())
                 .doOnNext(producer::send)
-                .map(event -> new MeetingAgendaCreateResponse(event.getId(), event.getName()));
+                .map(event -> new MeetingAgendaCreateResponse(event.id(), event.name()));
     }
 
     private Function<MeetingAgendaCreateCommand, MeetingAgendaCreateEvent> generateEvent() {
-        return command -> new MeetingAgendaCreateEvent(UUID.randomUUID(), command.getName());
+        return command -> MeetingAgendaCreateEvent.builder()
+                .id(UUID.randomUUID())
+                .name(command.name())
+                .build();
     }
 }
