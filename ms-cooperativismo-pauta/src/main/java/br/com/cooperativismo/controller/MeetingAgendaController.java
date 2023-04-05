@@ -19,7 +19,7 @@ public final class MeetingAgendaController {
 
     @PostMapping
     public Mono<ResponseEntity<MeetingAgendaCreateResponse>> createMeetingAgenda(@Valid @RequestBody Mono<MeetingAgendaCreateCommand> command) {
-        return service.createMeetingAgenda(command)
+        return service.receiverCommand(command)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(WebExchangeBindException.class,
                         e -> Mono.just(ResponseEntity.status(e.getStatusCode())

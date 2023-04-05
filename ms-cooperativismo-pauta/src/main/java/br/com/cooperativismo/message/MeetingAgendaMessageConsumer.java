@@ -1,6 +1,7 @@
 package br.com.cooperativismo.message;
 
 import br.com.cooperativismo.event.MeetingAgendaCreateEvent;
+import br.com.cooperativismo.helper.DateTimeHelper;
 import br.com.cooperativismo.mapper.MeetingAgendaMapper;
 import br.com.cooperativismo.repository.MeetingAgendaRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +22,17 @@ public final class MeetingAgendaMessageConsumer {
     public void handler(final ConsumerRecord<String, MeetingAgendaCreateEvent> messageRecord, Acknowledgment acknowledgment) {
         var event = messageRecord.value();
         Mono.just(event)
+                .doOnNext(e -> log.info("Meeting-Agenda-Message-Consumer time={} method=#handler id={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, e.id()))
                 .map(MeetingAgendaMapper::mapperToEntity)
                 .subscribe(meetingAgenda -> repository.save(meetingAgenda)
                         .doOnSuccess(s ->  {
-                            log.info("Meeting Agenda Message Consumer status=SUCCESS saved=true, id={}", s.getId());
-                            // metric
+                            log.info("Meeting-Agenda-Message-Consumer status=SUCCESS time={} saved=true id={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, s.getId());
+                            // alguma integração de  metrica
                             acknowledgment.acknowledge();
                         })
                         .onErrorResume(throwable -> {
-                            log.error("Meeting Agenda Message Consumer status=ERROR, saved=false, id={}, errorMessage={}, method=handler", event.id(), throwable.getMessage());
-                            // metric
+                            log.error("Meeting-Agenda-Message-Consumer status=ERROR time={} saved=false  id={} errorMessage={} method=#handler", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event.id(), throwable.getMessage());
+                            // alguma integração de  metrica
                             return Mono.empty();
                         }).subscribe());
     }
