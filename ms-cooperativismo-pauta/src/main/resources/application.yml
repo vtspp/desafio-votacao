@@ -2,17 +2,26 @@ server:
   port: 8090
 
 spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db
+
   kafka:
     bootstrap-servers: localhost:9092
+    template:
+      default-topic: ms.cooperativismo.pauta-topic
+    listener:
+      ack-mode: manual
+
     producer:
       retries: 0
       acks: all
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      topic-name: ms.cooperativismo.pauta-producer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       client-id: group-1
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      topic-name: ms.cooperativismo.pauta-consumer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
