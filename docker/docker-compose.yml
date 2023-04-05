@@ -40,11 +40,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: username
-      ME_CONFIG_BASICAUTH_PASSWORD: 123456
+      ME_CONFIG_BASICAUTH_USERNAME: 
+      ME_CONFIG_BASICAUTH_PASSWORD: 
       ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+      ME_CONFIG_MONGODB_ADMINUSERNAME: 
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 
     links:
       - mongo
     networks:
@@ -53,8 +53,9 @@ services:
   mongo:
     image: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: db
+      MONGO_INITDB_ROOT_USERNAME: 
+      MONGO_INITDB_ROOT_PASSWORD: 
     ports:
       - "27017:27017"
     volumes:
