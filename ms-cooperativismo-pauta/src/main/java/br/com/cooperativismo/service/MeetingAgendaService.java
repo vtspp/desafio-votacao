@@ -17,8 +17,8 @@ public final class MeetingAgendaService {
 
     private final MeetingAgendaMessageProducer producer;
 
-    public Mono<MeetingAgendaCreateResponse> createMeetingAgenda(MeetingAgendaCreateCommand command) {
-        return Mono.just(command)
+    public Mono<MeetingAgendaCreateResponse> createMeetingAgenda(Mono<MeetingAgendaCreateCommand> command) {
+        return command
                 .map(this.generateEvent())
                 .doOnNext(producer::send)
                 .doOnError(Mono::error)
