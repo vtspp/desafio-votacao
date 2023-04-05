@@ -18,8 +18,8 @@ public final class MeetingAgendaMessageConsumer {
 
     private final MeetingAgendaRepository repository;
     @KafkaListener(id = "${spring.kafka.consumer.client-id}", topics = "${spring.kafka.template.default-topic}")
-    public void handler(ConsumerRecord<String, MeetingAgendaCreateEvent> messageRecord, Acknowledgment acknowledgment) {
-        final MeetingAgendaCreateEvent event = messageRecord.value();
+    public void handler(final ConsumerRecord<String, MeetingAgendaCreateEvent> messageRecord, Acknowledgment acknowledgment) {
+        var event = messageRecord.value();
         Mono.just(event)
                 .map(MeetingAgendaMapper::mapperToEntity)
                 .subscribe(meetingAgenda -> repository.save(meetingAgenda)

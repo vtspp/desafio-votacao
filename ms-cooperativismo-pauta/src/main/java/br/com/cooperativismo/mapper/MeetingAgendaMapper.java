@@ -8,7 +8,7 @@ import lombok.experimental.UtilityClass;
 public class MeetingAgendaMapper {
 
     public MeetingAgenda mapperToEntity(MeetingAgendaCreateEvent event) {
-            MeetingAgenda meetingAgenda = new MeetingAgenda();
+            var meetingAgenda = new MeetingAgenda();
             meetingAgenda.setId(event.id());
             meetingAgenda.setName(event.name());
             return meetingAgenda;
