@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeetingAgendaEvent {
+public class MeetingAgendaCreateEvent {
     private UUID id;
     private String name;
 }
