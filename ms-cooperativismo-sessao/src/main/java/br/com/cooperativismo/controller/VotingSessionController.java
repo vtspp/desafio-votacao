@@ -22,7 +22,7 @@ public final class VotingSessionController {
 
     @PostMapping
     public Mono<ResponseEntity<VotingSessionResponse>> openVotingSession(@Valid @RequestBody Mono<VotingSessionCommand> command) {
-        return service.receiverCommand(command)
+        return service.receiveCommand(command)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(WebExchangeBindException.class,
                         e -> Mono.just(ResponseEntity.status(e.getStatusCode())

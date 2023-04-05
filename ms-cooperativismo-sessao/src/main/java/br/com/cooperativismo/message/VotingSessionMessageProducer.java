@@ -1,6 +1,7 @@
 package br.com.cooperativismo.message;
 
 import br.com.cooperativismo.event.VotingSessionEvent;
+import br.com.cooperativismo.helper.DateTimeHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,10 +17,10 @@ public final class VotingSessionMessageProducer {
     public void send(VotingSessionEvent event) {
         try {
             this.kafkaTemplate.send(kafkaTemplate.getDefaultTopic(), event);
-            log.info("Voting Session Message Producer status=SUCCESS event={}", event);
+            log.info("Voting-Session-Message-Producer time={} status=SUCCESS method=#send event={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event);
             // envia métrica de sucesso
         } catch (RuntimeException e) {
-            log.error("Voting Session Message Producer status=ERROR event={}, errorMessage={}, method=send", event, e.getMessage());
+            log.error("Voting-Session-Message-Producer time={} status=ERROR method=#send event={} errorMessage={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event, e.getMessage());
             // enviar métrica de erro
             throw e;
         }

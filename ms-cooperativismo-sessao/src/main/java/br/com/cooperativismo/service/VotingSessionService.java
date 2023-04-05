@@ -21,9 +21,9 @@ public final class VotingSessionService {
 
     private final VotingSessionMessageProducer messageProducer;
 
-    public Mono<VotingSessionResponse> receiverCommand(Mono<VotingSessionCommand> command) {
+    public Mono<VotingSessionResponse> receiveCommand(Mono<VotingSessionCommand> command) {
         return command
-                .doOnNext(c -> log.info("Voting Session Service receiveCommand={}, localDateTime={}", c, DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
+                .doOnNext(c -> log.info("Voting-Session-Service time={} method=#receiveCommand", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
                 .map(this.generateEvent())
                 .doOnNext(messageProducer::send)
                 .map(event -> new VotingSessionResponse(event.id(), event.sessionStatus()));
