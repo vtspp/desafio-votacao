@@ -4,5 +4,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record VotingSessionCommand(int minutesOfDuration, @NotNull(message = "Field 'meetingAgenda' is mandatory") UUID meetingAgendaId) {
+public record VotingSessionCommand(@NotNull(message = "Field 'meetingAgendaId' is mandatory") UUID meetingAgendaId, int minutesOfDuration) {
 }
