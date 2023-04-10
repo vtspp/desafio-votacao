@@ -5,13 +5,19 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Data
 @Document
 public class VotingSession {
-    private final UUID id;
+
+    private UUID id;
     private int minutesOfDuration = 1;
+    private LocalTime sessionBegin;
+    private LocalTime sessionEnd;
+
     @Indexed
     private VotingSessionStatus sessionStatus;
+
 }
