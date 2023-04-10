@@ -1,0 +1,32 @@
+server:
+  port: 8092
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db
+      auto-index-creation: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: ms.cooperativismo.voto-topic
+    listener:
+      ack-mode: manual
+      missing-topics-fatal: false
+      async-acks: false
+
+    producer:
+      retries: 0
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      enable-auto-commit: false
+      client-id: group-1
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
