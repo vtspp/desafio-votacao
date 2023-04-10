@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
-import java.util.function.Function;
 
 @Slf4j
 @Service
@@ -22,18 +21,9 @@ public final class VotingSessionService {
     private final VotingSessionMessageProducer messageProducer;
 
     public Mono<VotingSessionResponse> receiveCommand(Mono<VotingSessionCommand> command) {
-        return command
-                .doOnNext(c -> log.info("Voting-Session-Service time={} method=#receiveCommand", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
-                .map(this.generateEvent())
+        return command.doOnNext(c -> log.info("Voting-Session-Service time={} method=#receiveCommand", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
+                .map(c -> new VotingSessionEvent(UUID.randomUUID(), c.minutesOfDuration(), VotingSessionStatus.PENDING))
                 .doOnNext(messageProducer::send)
                 .map(event -> new VotingSessionResponse(event.id(), event.sessionStatus()));
-    }
-
-    private Function<VotingSessionCommand, VotingSessionEvent> generateEvent() {
-        return command -> VotingSessionEvent.builder()
-                .id(UUID.randomUUID())
-                .minutesOfDuration(command.minutesOfDuration())
-                .sessionStatus(VotingSessionStatus.PENDING)
-                .build();
     }
 }
