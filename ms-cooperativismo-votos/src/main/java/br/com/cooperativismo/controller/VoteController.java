@@ -26,6 +26,6 @@ public final class VoteController {
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(WebExchangeBindException.class,
                         e -> Mono.just(ResponseEntity.status(e.getStatusCode())
-                                .body(new VoteResponse(e.getFieldError().getDefaultMessage()))));
+                                .body(new VoteResponse(e.getAllErrors()))));
     }
 }
