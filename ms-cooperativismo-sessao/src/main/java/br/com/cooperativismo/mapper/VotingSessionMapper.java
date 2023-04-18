@@ -10,12 +10,19 @@ public class VotingSessionMapper {
     public VotingSession mapperToEntity(VotingSessionEvent event) {
         var votingSession = new VotingSession();
         votingSession.setId(event.id());
+        votingSession.setMeetingAgendaId(event.meetingVotingId());
         votingSession.setMinutesOfDuration(event.minutesOfDuration());
         votingSession.setSessionStatus(event.sessionStatus());
+        votingSession.setAssociates(null);
             return votingSession;
     }
 
     public VotingSessionEvent mapperToEvent(VotingSession votingSession) {
-        return new VotingSessionEvent(votingSession.getId(), votingSession.getMinutesOfDuration(), votingSession.getSessionStatus());
+        return new VotingSessionEvent(
+                votingSession.getId(),
+                votingSession.getMeetingAgendaId(),
+                votingSession.getMinutesOfDuration(),
+                votingSession.getSessionStatus()
+        );
     }
 }
