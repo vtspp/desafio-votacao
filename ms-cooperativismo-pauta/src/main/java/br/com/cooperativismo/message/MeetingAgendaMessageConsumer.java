@@ -22,17 +22,18 @@ public final class MeetingAgendaMessageConsumer {
     public void handler(final ConsumerRecord<String, MeetingAgendaCreateEvent> messageRecord, Acknowledgment acknowledgment) {
         var event = messageRecord.value();
         Mono.just(event)
-                .doOnNext(e -> log.info("Meeting-Agenda-Message-Consumer time={} method=#handler id={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, e.id()))
+                .doOnNext(e -> log.info("Meeting-Agenda-Message-Consumer time={} method=#handler id={}",
+                        DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, e.id()))
                 .map(MeetingAgendaMapper::mapperToEntity)
                 .subscribe(meetingAgenda -> repository.save(meetingAgenda)
                         .doOnSuccess(s ->  {
-                            log.info("Meeting-Agenda-Message-Consumer status=SUCCESS time={} saved=true id={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, s.getId());
-                            // alguma integração de  metrica
+                            log.info("Meeting-Agenda-Message-Consumer status=SUCCESS time={} saved=true id={}",
+                                    DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, s.getId());
                             acknowledgment.acknowledge();
                         })
                         .onErrorResume(throwable -> {
-                            log.error("Meeting-Agenda-Message-Consumer status=ERROR time={} saved=false  id={} errorMessage={} method=#handler", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event.id(), throwable.getMessage());
-                            // alguma integração de  metrica
+                            log.error("Meeting-Agenda-Message-Consumer status=ERROR time={} saved=false  id={} errorMessage={} method=#handler",
+                                    DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event.id(), throwable.getMessage());
                             return Mono.empty();
                         }).subscribe());
     }
