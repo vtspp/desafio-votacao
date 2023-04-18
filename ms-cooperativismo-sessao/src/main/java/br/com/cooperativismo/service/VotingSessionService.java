@@ -2,7 +2,7 @@ package br.com.cooperativismo.service;
 
 import br.com.cooperativismo.command.VotingSessionCommand;
 import br.com.cooperativismo.controller.VotingSessionResponse;
-import br.com.cooperativismo.enumerate.VotingSessionStatus;
+import br.com.cooperativismo.enumerate.SessionStatus;
 import br.com.cooperativismo.event.VotingSessionEvent;
 import br.com.cooperativismo.helper.DateTimeHelper;
 import br.com.cooperativismo.message.VotingSessionMessageProducer;
@@ -22,7 +22,7 @@ public final class VotingSessionService {
 
     public Mono<VotingSessionResponse> receiveCommand(Mono<VotingSessionCommand> command) {
         return command.doOnNext(c -> log.info("Voting-Session-Service time={} method=#receiveCommand", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
-                .map(c -> new VotingSessionEvent(UUID.randomUUID(), c.minutesOfDuration(), VotingSessionStatus.PENDING))
+                .map(c -> new VotingSessionEvent(UUID.randomUUID(), c.meetingAgendaId(), c.minutesOfDuration(), SessionStatus.PENDING))
                 .doOnNext(messageProducer::send)
                 .map(event -> new VotingSessionResponse(event.id(), event.sessionStatus()));
     }
