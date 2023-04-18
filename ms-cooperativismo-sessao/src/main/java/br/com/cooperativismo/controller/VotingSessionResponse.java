@@ -1,6 +1,6 @@
 package br.com.cooperativismo.controller;
 
-import br.com.cooperativismo.enumerate.VotingSessionStatus;
+import br.com.cooperativismo.enumerate.SessionStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
@@ -12,11 +12,11 @@ public final class VotingSessionResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID votingSessionId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private VotingSessionStatus sessionStatus;
+    private SessionStatus sessionStatus;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String messageError;
 
-    public VotingSessionResponse(UUID votingSessionId, VotingSessionStatus sessionStatus) {
+    public VotingSessionResponse(UUID votingSessionId, SessionStatus sessionStatus) {
         this.votingSessionId = votingSessionId;
         this.sessionStatus = sessionStatus;
     }
