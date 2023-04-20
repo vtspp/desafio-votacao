@@ -28,16 +28,16 @@ public final class VotingSessionMessageConsumer {
         if (consumerEvent.sessionStatus() == SessionStatus.PENDING) {
             Mono.just(consumerEvent)
                     .doOnNext(e -> log.info("time={} method=#handler id={} eventStatus={} meetingAgenda={} handlerInfo=RECEIVED",
-                            DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, consumerEvent.id(), consumerEvent.sessionStatus(), consumerEvent.meetingVotingId()))
+                            DateTimeHelper.getLocalDateTimeFormatted(), consumerEvent.id(), consumerEvent.sessionStatus(), consumerEvent.meetingVotingId()))
                     .transform(e -> service.process(e)
                             .doOnError(throwable -> log.error(
                                     "time={} method=#handler id={} eventStatus={} meetingAgendaId={} errorMessage={} handleInfo=ERROR",
-                                    DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, consumerEvent.id(), consumerEvent.sessionStatus(), consumerEvent.meetingVotingId(), throwable.getMessage()))
+                                    DateTimeHelper.getLocalDateTimeFormatted(), consumerEvent.id(), consumerEvent.sessionStatus(), consumerEvent.meetingVotingId(), throwable.getMessage()))
                             .onErrorComplete())
                     .doOnSuccess(x -> {
                         if (Objects.nonNull(x)) {
                             log.info("time={} method=#handler id={} eventStatus={} meetingAgendaId={} handlerInfo=SUCCESS",
-                                    DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, x.getId(), x.getSessionStatus(), x.getMeetingAgendaId());
+                                    DateTimeHelper.getLocalDateTimeFormatted(), x.getId(), x.getSessionStatus(), x.getMeetingAgendaId());
                             acknowledgment.acknowledge();
                         }
                     })

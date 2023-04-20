@@ -17,10 +17,10 @@ public final class VotingSessionMessageProducer {
     public void send(VotingSessionEvent event) {
         try {
             this.kafkaTemplate.send(kafkaTemplate.getDefaultTopic(), event);
-            log.info("Voting-Session-Message-Producer time={} status=SUCCESS method=#send event={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event);
+            log.info("Voting-Session-Message-Producer time={} status=SUCCESS method=#send event={}", DateTimeHelper.getLocalDateTimeFormatted(), event);
             // envia métrica de sucesso
         } catch (RuntimeException e) {
-            log.error("Voting-Session-Message-Producer time={} status=ERROR method=#send event={} errorMessage={}", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, event, e.getMessage());
+            log.error("Voting-Session-Message-Producer time={} status=ERROR method=#send event={} errorMessage={}", DateTimeHelper.getLocalDateTimeFormatted(), event, e.getMessage());
             // enviar métrica de erro
             throw e;
         }
