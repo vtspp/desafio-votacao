@@ -35,7 +35,7 @@ public final class ProcessEventService implements ProcessService<Mono<VotingSess
                         .doOnNext(v -> votingSessionRepository.save(v)
                                 .subscribe())
                         .doOnNext(v -> log.info("time={} method=#process id={} votingSessionStatus={} meetingAgendaId={} processInfo=saved",
-                                DateTimeHelper.LOCAL_DATE_TIME_FORMATTED, v.getId(), v.getSessionStatus(), v.getMeetingAgendaId()))
+                                DateTimeHelper.getLocalDateTimeFormatted(), v.getId(), v.getSessionStatus(), v.getMeetingAgendaId()))
                         .doOnNext(v -> publishEventWhenStatusIsUpdated().accept(v, e)).block());
     }
 
