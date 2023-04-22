@@ -4,6 +4,8 @@ import br.com.cooperativismo.domain.VotingSession;
 import br.com.cooperativismo.event.VotingSessionEvent;
 import lombok.experimental.UtilityClass;
 
+import java.util.HashSet;
+
 @UtilityClass
 public class VotingSessionMapper {
 
@@ -13,7 +15,7 @@ public class VotingSessionMapper {
         votingSession.setMeetingAgendaId(event.meetingVotingId());
         votingSession.setMinutesOfDuration(event.minutesOfDuration());
         votingSession.setSessionStatus(event.sessionStatus());
-        votingSession.setAssociates(null);
+        votingSession.setAssociates(new HashSet<>(0));
             return votingSession;
     }
 
