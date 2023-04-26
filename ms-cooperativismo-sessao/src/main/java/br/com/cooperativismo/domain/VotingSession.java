@@ -1,26 +1,25 @@
 package br.com.cooperativismo.domain;
 
+import br.com.cooperativismo.enumerate.Vote;
 import br.com.cooperativismo.enumerate.SessionStatus;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-@Data
-@NoArgsConstructor
 @Document
-public class VotingSession {
-
-    @MongoId
-    private UUID id;
-    private UUID meetingAgendaId;
-    private int minutesOfDuration = 1;
-    private LocalTime sessionBegin;
-    private LocalTime sessionEnd;
-    private SessionStatus sessionStatus;
-    private Set<Associate> associates;
+public record VotingSession(
+        @MongoId
+        UUID id,
+        UUID meetingAgendaId,
+        int minutesOfDuration,
+        LocalTime sessionBegin,
+        LocalTime sessionEnd,
+        SessionStatus sessionStatus,
+        Map<String, Boolean> registers,
+        List<Vote> votes
+) {
 }
