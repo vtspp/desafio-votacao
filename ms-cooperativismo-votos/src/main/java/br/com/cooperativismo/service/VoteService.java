@@ -2,7 +2,6 @@ package br.com.cooperativismo.service;
 
 import br.com.cooperativismo.controller.VoteRequest;
 import br.com.cooperativismo.controller.VoteResponse;
-import br.com.cooperativismo.domain.VotingSession;
 import br.com.cooperativismo.enumerate.Vote;
 import br.com.cooperativismo.event.VoteEvent;
 import br.com.cooperativismo.exception.InvalidVoteException;
