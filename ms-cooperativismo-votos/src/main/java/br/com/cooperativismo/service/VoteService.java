@@ -18,7 +18,6 @@ import java.util.UUID;
 @Service
 public record VoteService(
         VotingSessionRepository votingSessionRepository,
-        AssociateRepository associateRepository,
         VoteMessageProducer messageProducer) {
 
     public Mono<VoteResponse> voteReceive(Mono<VoteRequest> requestMono) {
