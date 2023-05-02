@@ -23,7 +23,7 @@ public record VoteService(
     public Mono<VoteResponse> voteReceive(Mono<VoteRequest> requestMono) {
         return requestMono
                 .doOnNext(this::validateBusinessRules)
-                .map(c -> new VoteEvent(UUID.randomUUID(), c.votingSessionId(), Vote.getVoteByIdentifier(c.voteIdentifier())))
+                .map(c -> new VoteEvent(UUID.randomUUID(), c.votingSessionId(), c.cpf(), Vote.getVoteByIdentifier(c.voteIdentifier())))
                 .doOnNext(messageProducer::send)
                 .doOnError(Mono::error)
                 .map(e -> new VoteResponse(e.id(), null))

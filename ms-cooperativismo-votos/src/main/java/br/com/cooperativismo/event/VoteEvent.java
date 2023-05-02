@@ -4,5 +4,5 @@ import br.com.cooperativismo.enumerate.Vote;
 
 import java.util.UUID;
 
-public record VoteEvent(UUID id, UUID votingSessionId, Vote vote) {
+public record VoteEvent(UUID id, UUID votingSessionId, String cpf, Vote vote) {
 }
