@@ -1,37 +1,23 @@
 package br.com.cooperativismo.service;
 
-import br.com.cooperativismo.command.MeetingAgendaCreateCommand;
+import br.com.cooperativismo.controller.MeetingAgendaCreateRequest;
 import br.com.cooperativismo.controller.MeetingAgendaCreateResponse;
-import br.com.cooperativismo.event.MeetingAgendaCreateEvent;
+import br.com.cooperativismo.domain.MeetingAgenda;
 import br.com.cooperativismo.helper.DateTimeHelper;
-import br.com.cooperativismo.message.MeetingAgendaMessageProducer;
-import lombok.RequiredArgsConstructor;
+import br.com.cooperativismo.repository.MeetingAgendaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
-import java.util.function.Function;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
-public final class MeetingAgendaService {
+public record MeetingAgendaService(MeetingAgendaRepository meetingAgendaRepository) {
 
-    private final MeetingAgendaMessageProducer producer;
-
-    public Mono<MeetingAgendaCreateResponse> receiverCommand(Mono<MeetingAgendaCreateCommand> command) {
-        return command
-                    .doOnNext(c -> log.info("Meeting-Agenda-Message-Service time={} method=#receiveCommand", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
-                .map(this.generateEvent())
-                .doOnNext(producer::send)
-                .map(event -> new MeetingAgendaCreateResponse(event.id(), event.name()));
-    }
-
-    private Function<MeetingAgendaCreateCommand, MeetingAgendaCreateEvent> generateEvent() {
-        return command -> MeetingAgendaCreateEvent.builder()
-                .id(UUID.randomUUID())
-                .name(command.name())
-                .build();
+    public Mono<MeetingAgendaCreateResponse> createMeetingAgenda(Mono<MeetingAgendaCreateRequest> command) {
+        return command.doOnNext(c -> log.info("time={} method=#createMeetingAgenda", DateTimeHelper.LOCAL_DATE_TIME_FORMATTED))
+                .flatMap(r -> meetingAgendaRepository.save(new MeetingAgenda(UUID.randomUUID(), r.name())))
+                .map(m -> new MeetingAgendaCreateResponse(m.id(), m.name(), null));
     }
 }
