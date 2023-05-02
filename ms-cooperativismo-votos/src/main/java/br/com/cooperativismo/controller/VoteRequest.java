@@ -11,8 +11,8 @@ public record VoteRequest(
         @NotNull(message = "Field 'votingSessionId' is mandatory")
         UUID votingSessionId,
 
-        @NotBlank(message = "Field 'memberDocument' is mandatory")
-        String memberDocument,
+        @NotBlank(message = "Field 'cpf' is mandatory")
+        String cpf,
 
         @Min(value = 0, message = "Minimum vote is 0")
         @Max(value = 1, message = "Maxime vote is 1")
