@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 @UtilityClass
@@ -24,7 +24,7 @@ public class ConvertHelper {
                 sessionBegin,
                 sessionEnd,
                 SessionStatus.OPEN,
-                new HashMap<>(0),
+                new HashSet<>(0),
                 new ArrayList<>(0));
     }
 }
