@@ -1,8 +1,8 @@
 package br.com.cooperativismo.event;
 
-import br.com.cooperativismo.enumerate.MemberVote;
+import br.com.cooperativismo.enumerate.Vote;
 
 import java.util.UUID;
 
-public record VoteEvent(UUID id, UUID meetingAgenda, String memberDocument, MemberVote memberVote) {
+public record VoteEvent(UUID id, UUID votingSessionId, Vote vote) {
 }

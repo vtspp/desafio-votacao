@@ -1,4 +1,4 @@
-package br.com.cooperativismo.command;
+package br.com.cooperativismo.controller;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record VoteCommand(
-        @NotNull(message = "Field 'meetingAgendaId' is mandatory")
-        UUID meetingAgendaId,
+public record VoteRequest(
+        @NotNull(message = "Field 'votingSessionId' is mandatory")
+        UUID votingSessionId,
 
         @NotBlank(message = "Field 'memberDocument' is mandatory")
         String memberDocument,
 
-        @Min(value = 0, message = "Minimum values is 0")
-        @Max(value = 1, message = "Maxime values is 1")
-        int memberVote) {
+        @Min(value = 0, message = "Minimum vote is 0")
+        @Max(value = 1, message = "Maxime vote is 1")
+        int voteIdentifier) {
 }
