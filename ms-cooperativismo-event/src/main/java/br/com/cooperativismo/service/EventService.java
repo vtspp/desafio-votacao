@@ -1,6 +1,7 @@
 package br.com.cooperativismo.service;
 
 import br.com.cooperativismo.event.VoteEvent;
+import br.com.cooperativismo.helper.DateTimeHelper;
 import br.com.cooperativismo.repository.VotingSessionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ public final class EventService {
                              v.attendanceList().add(consumerEvent.cpf());
                          })
                          .subscribe(v -> votingSessionRepository.save(v)
-                                 .subscribe(it -> log.info("Vote computed votingSessionId={}, meetingAgendaId={}", v.id(), v.meetingAgendaId()))));
+                                 .subscribe(it -> log.info("time={} method=#processEvent eventStatus=SAVED votingSessionId={}, meetingAgendaId={}, cpf={}",
+                                         DateTimeHelper.getLocalDateTimeFormatted(), v.id(), v.meetingAgendaId(), consumerEvent.cpf()))));
     }
 }
