@@ -3,10 +3,9 @@ package br.com.cooperativismo.controller;
 import br.com.cooperativismo.dto.VotingSessionRequest;
 import br.com.cooperativismo.dto.VotingSessionResponse;
 import br.com.cooperativismo.helper.DateTimeHelper;
-import br.com.cooperativismo.service.ReactiveService;
+import br.com.cooperativismo.service.VotingSessionService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +19,11 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("api/v1/votingSessions")
 public record VotingSessionController(
-        @Qualifier("votingSessionCreateService")
-        ReactiveService<Mono<VotingSessionRequest>, Mono<VotingSessionResponse>> reactiveService) {
+        VotingSessionService votingSessionService) {
 
     @PostMapping
     public Mono<ResponseEntity<VotingSessionResponse>> openVotingSession(@Valid @RequestBody Mono<VotingSessionRequest> requestMono) {
-        return reactiveService.processRequest(requestMono)
+        return votingSessionService.createSession(requestMono)
                 .map(response -> {
                     log.info("time={} method=#openVotingSession status=SUCCESS votingSessionId={}", DateTimeHelper.getLocalDateTimeFormatted(), response.votingSessionId());
                     return ResponseEntity.status(HttpStatus.CREATED).body(response);
