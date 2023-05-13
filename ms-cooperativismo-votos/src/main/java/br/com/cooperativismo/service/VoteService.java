@@ -31,13 +31,11 @@ public record VoteService(
     }
 
     private void validateBusinessRules(VoteRequest request) {
-        final var votingSessionId = request.votingSessionId();
-        votingSessionRepository.findById(votingSessionId)
-                .blockOptional()
-                .ifPresentOrElse(v -> {
-                    ValidateHelper.validateSessionIsOpenOrThrowException(v);
-                    ValidateHelper.validateAssociateToVote(v.attendanceList(), request.cpf());
-                    ValidateHelper.validateVoteOrThrowException(request.voteIdentifier());
-                }, () -> new InvalidVoteSessionException(String.format("Session %s invalid or not registered", votingSessionId)));
+        votingSessionRepository.findById(request.votingSessionId())
+                        .switchIfEmpty(Mono.error(() -> new InvalidVoteSessionException(String.format("Session %s invalid or not registered", request.votingSessionId()))))
+                                .doOnNext(ValidateHelper::validateSessionIsOpenOrThrowException)
+                                        .doOnNext(v -> ValidateHelper.validateAssociateToVote(v.attendanceList(), request.cpf()))
+                                                .doOnNext(v -> ValidateHelper.validateVoteOrThrowException(request.voteIdentifier()))
+                .subscribe();
     }
 }
