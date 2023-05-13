@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,5 +19,5 @@ public record VotingSession(
         LocalTime sessionEnd,
         SessionStatus sessionStatus,
         Set<String> attendanceList,
-        List<Vote> votes) {
+        Map<Vote, Long> votes) {
 }
