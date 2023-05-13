@@ -32,10 +32,10 @@ public record VoteService(
 
     private void validateBusinessRules(VoteRequest request) {
         votingSessionRepository.findById(request.votingSessionId())
-                        .switchIfEmpty(Mono.error(() -> new InvalidVoteSessionException(String.format("Session %s invalid or not registered", request.votingSessionId()))))
-                                .doOnNext(ValidateHelper::validateSessionIsOpenOrThrowException)
-                                        .doOnNext(v -> ValidateHelper.validateAssociateToVote(v.attendanceList(), request.cpf()))
-                                                .doOnNext(v -> ValidateHelper.validateVoteOrThrowException(request.voteIdentifier()))
+                .switchIfEmpty(Mono.error(() -> new InvalidVoteSessionException(String.format("Session %s invalid or not registered", request.votingSessionId()))))
+                .doOnNext(ValidateHelper::validateSessionIsOpenOrThrowException)
+                .doOnNext(v -> ValidateHelper.validateAssociateToVote(v.attendanceList(), request.cpf()))
+                .doOnNext(v -> ValidateHelper.validateVoteOrThrowException(request.voteIdentifier()))
                 .subscribe();
     }
 }
