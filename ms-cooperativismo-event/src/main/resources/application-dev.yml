@@ -1,0 +1,25 @@
+server:
+  port: 8093
+
+spring:
+  data:
+    mongodb:
+      database: db
+      host: localhost
+      port: 27017
+      auto-index-creation: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: ms.cooperativismo.voto-topic
+    listener:
+      ack-mode: manual
+
+    consumer:
+      client-id: group-1
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
