@@ -4,11 +4,13 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/db
+      database: db
+      host: mongo
+      port: 27017
       auto-index-creation: true
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     template:
       default-topic: ms.cooperativismo.voto-topic
     listener:
