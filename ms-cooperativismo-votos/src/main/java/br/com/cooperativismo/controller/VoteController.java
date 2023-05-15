@@ -19,16 +19,16 @@ import java.util.stream.Collectors;
 public record VoteController(VoteService service) {
 
     @PostMapping
-    public Mono<ResponseEntity<VoteResponse>> openVotingSession(@Valid @RequestBody Mono<VoteRequest> requestMono) {
-        return service.voteReceive(requestMono)
+    public Mono<ResponseEntity<VoteResponse>> openVotingSession(@Valid @RequestBody VoteRequest request) {
+        return service.voteReceive(request)
                 .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
                 .onErrorResume(WebExchangeBindException.class,
                         e -> Mono.just(ResponseEntity.status(e.getStatusCode())
                                 .body(
                                         new VoteResponse(null, e.getAllErrors()
-                                        .stream()
-                                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                                        .collect(Collectors.toList())
+                                                .stream()
+                                                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                                .collect(Collectors.toList())
                                         )
                                 )
                         )
