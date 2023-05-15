@@ -4,13 +4,12 @@ server:
 spring:
   data:
     mongodb:
-      database: db
-      host: mongo
-      port: 27017
+      database: ${MONGODB_DATABASE}
+      host: ${MONGODB_HOST}
+      port: ${MONGODB_PORT}
       auto-index-creation: true
 
   kafka:
-    bootstrap-servers: ${KAFKA_SERVER}
     template:
       default-topic: ms.cooperativismo.voto-topic
     listener:
@@ -23,3 +22,4 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
+      bootstrap-servers: ${KAFKA_SERVER}
