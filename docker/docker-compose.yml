@@ -40,15 +40,13 @@ services:
     ports:
       - "8081:8081"
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: 
-      ME_CONFIG_BASICAUTH_PASSWORD: 
+      ME_CONFIG_BASICAUTH_USERNAME: user
+      ME_CONFIG_BASICAUTH_PASSWORD: 123456
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_ADMINUSERNAME: 
       ME_CONFIG_MONGODB_ADMINPASSWORD: 
     links:
       - mongo
-    networks:
-      - mongo-compose-network
 
   mongo:
     image: mongo
@@ -60,6 +58,49 @@ services:
       - "27017:27017"
     volumes:
       - /var/lib/mongo/db
+
+  ms-cooperativismo-pauta:
+    container_name: ms-cooperativismo-pauta
+    image: ms-cooperativismo-pauta:0.0.1
+    ports:
+     - "8090:8090"
+    links:
+      - mongo
+  
+  ms-cooperativismo-session:
+    image: ms-cooperativismo-sessao:0.0.1
+    ports:
+      - "8091:8091"
+    links:
+      - mongo
+  
+  ms-cooperativismo-votos:
+    image: ms-cooperativismo-votos:0.0.1
+    ports:
+      - "8092:8092"
+    links:
+      - mongo
+      - kafka
+  
+  ms-cooperativismo-event:
+    image: ms-cooperativismo-event:0.0.1
+    environment:
+      MONGODB_DATABASE: db
+      MONGODB_HOST: mongo
+      MONGODB_PORT: 27017
+      KAFKA_SERVER: localhost:9092
+    ports:
+      - "8093:8093"
+    links:
+      - mongo
+      - kafka
+
+  ms-cooperativismo-relatorio:
+    image: ms-cooperativismo-relatorio:0.0.1
+    ports:
+      - "8094:8094"
+    links:
+      - mongo 
 
 networks:
   broker-kafka:
